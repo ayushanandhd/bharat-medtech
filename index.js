@@ -1,10 +1,11 @@
-import express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const dotenv = require('dotenv');
+const path = require('path');
+const { fileURLToPath } = require('url');
+
 
 dotenv.config();
 
