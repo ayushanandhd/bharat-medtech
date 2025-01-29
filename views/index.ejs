@@ -1,37 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bharat Medtech - Your AI Health Companion</title>
-    <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharat Medtech</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Background gradient effect -->
-        <div class="background-gradient"></div>
-        
-        <!-- Animated orbs -->
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        
-        <!-- Content -->
-        <div class="content">
-            <h1 class="title">
-                Bharat Medtech
-            </h1>
-            
-            <p class="tagline">
-                Your AI health companion
-            </p>
-
-            <div class="coming-soon-section">
-                <p class="coming-soon-text">Coming Soon</p>
-                <a href="#" class="learn-more">
-                    Learn More
-                </a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>Bharat Medtech</h1>
+      <p class="subtitle">Direct <span class="gradient-text">science-based</span> answers to medical questions</p>
     </div>
+
+    <div class="chat-container">
+      <div class="messages" id="messages"></div>
+      
+      <div class="input-container">
+        <input type="text" id="userInput" placeholder="Ask a health or bioscience question..." />
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    const messages = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function addMessage(text, isUser) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+      messageDiv.textContent = text;
+      messages.appendChild(messageDiv);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function sendMessage() {
+      const message = userInput.value.trim();
+      if (message) {
+        addMessage(message, true);
+        socket.emit('sendMessage', message);
+        userInput.value = '';
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    let currentResponse = '';
+    socket.on('botReply', (text) => {
+      const lastMessage = messages.lastElementChild;
+      if (lastMessage && !lastMessage.classList.contains('user-message')) {
+        lastMessage.textContent = text;
+      } else {
+        addMessage(text, false);
+      }
+    });
+  </script>
 </body>
 </html>
