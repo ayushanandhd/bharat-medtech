@@ -6,14 +6,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "build": "echo 'build not required'"
-
   },
   "dependencies": {
     "@google/generative-ai": "^0.2.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.18.3",
-    "socket.io": "^4.7.4"
+    "http": "^0.0.1-security",
+    "socket.io": "^4.7.4",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

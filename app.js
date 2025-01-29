@@ -21,7 +21,7 @@ app.use(express.static('public'));
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render(path.join(__dirname, 'views', 'index.ejs'));
 });
 
 io.on('connection', (socket) => {
